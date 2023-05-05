@@ -1,0 +1,15 @@
+rootProject.name = 'messages'
+
+for (module in ['messages-core', 'messages-bukkit', 'messages-bungee', 'messages-velocity']) {
+    include("${module}")
+    project(":${module}").projectDir = file(module)
+}
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            plugin('shadow', 'com.github.johnrengelman.shadow').version('7.1.2')
+
+        }
+    }
+}
