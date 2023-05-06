@@ -1,5 +1,5 @@
 repositories {
-
+    maven { url = 'https://repo.bobolabs.net/repository/maven-public/' }    // :D
 }
 
 dependencies {
@@ -17,3 +17,6 @@ shadowJar {
 
     from "${project.rootDir}/LICENSE.txt"
 }
+
+tasks.jar.enabled = false
+tasks.build.dependsOn(shadowJar)

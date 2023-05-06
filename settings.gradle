@@ -1,6 +1,6 @@
 rootProject.name = 'messages'
 
-for (module in ['messages-core', 'messages-bukkit', 'messages-bungee', 'messages-velocity']) {
+for (module in ['core', 'bukkit', 'bungee', 'velocity']) {
     include("${module}")
     project(":${module}").projectDir = file(module)
 }
@@ -9,7 +9,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         libs {
             plugin('shadow', 'com.github.johnrengelman.shadow').version('7.1.2')
-
+            library('bobolibs.core', 'net.bobolabs:core:[0.0.1,)')
         }
     }
 }

@@ -9,8 +9,8 @@ plugins {
 }
 
 subprojects {
-    apply plugin: 'java-library'
     apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'java-library'
 
     group = 'net.bobolabs'
     version = '0.0.1'
@@ -22,8 +22,7 @@ subprojects {
 
     dependencies {
         compileOnly 'org.jetbrains:annotations:24.0.1'                          // JetBrains annotations
-        compileOnly 'net.bobolabs:core:[0.0.1,)'                                // core module
-
+        implementation libs.bobolibs.core
 
         testImplementation platform('org.junit:junit-bom:5.9.1')
         testImplementation 'org.junit.jupiter:junit-jupiter'

@@ -15,7 +15,7 @@ import java.util.Locale;
                 enchants.yml
                 welcome.yml
  */
-public abstract class AbstractMessageManager<T, U extends Message<T>> implements MessageManager<T> {
+public abstract class AbstractMessageManager<T, U extends AbstractMessage<T>> implements MessageManager<T, U> {
 
     private static final String JOINER = "\u200B";
 
@@ -34,7 +34,7 @@ public abstract class AbstractMessageManager<T, U extends Message<T>> implements
 
     protected abstract @NotNull Locale getLocale(@NotNull T audience);
 
-    @Override
+    //@Override
     public void enable() {
         String namespace = getNamespace();
         Key key = Key.key(namespace, "main");
@@ -44,7 +44,7 @@ public abstract class AbstractMessageManager<T, U extends Message<T>> implements
         GlobalTranslator.translator().addSource(registry);
     }
 
-    @Override
+    //@Override
     public void disable() {
         if (registry != null) {
             GlobalTranslator.translator().removeSource(registry);

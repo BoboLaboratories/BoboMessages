@@ -8,6 +8,21 @@ plugin.getMessage(player, "my.key)
 plugin.sendMessage(player, "my.key")
 
 
+
+
+
+
+BukkitMessage message =
+
+
+Message<CommandSender> message = 
+
+
+
+
+
+
+
     messageManger().fromKey("some.fancy.key")
             .replace("%:D%", something)
             .send(player);
