@@ -1,7 +1,3 @@
-repositories {
-    maven { url = 'https://repo.bobolabs.net/repository/maven-public/' }    // :D
-}
-
 dependencies {
     compileOnly 'net.kyori:adventure-api:4.13.1'
 
