@@ -3,10 +3,9 @@ package net.bobolabs.messages.bukkit;
 import net.bobolabs.messages.AbstractMessage;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class Message extends AbstractMessage<CommandSender> {
+public class Message extends AbstractMessage<CommandSender, Message> {
 
     Message(@NotNull MiniMessage miniMessage, @NotNull CommandSender audience, @NotNull String... lines) {
         super(miniMessage, audience, lines);

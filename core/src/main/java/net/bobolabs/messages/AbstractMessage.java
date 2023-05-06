@@ -1,7 +1,6 @@
 package net.bobolabs.messages;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
-
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.RegEx;
@@ -10,7 +9,7 @@ import java.util.function.UnaryOperator;
 
 // TODO qui perche' sono qui, permettere agli utilizzatori della libreria di fornire il loro minimessage al manager
 // TODO add constructor with Collection<T> audience
-public abstract class AbstractMessage<T> {
+public abstract class AbstractMessage<T, U extends AbstractMessage<T, U>> implements Message<T, U> {
 
     private final MiniMessage miniMessage;
     private final T audience;
@@ -25,22 +24,22 @@ public abstract class AbstractMessage<T> {
         this.audience = audience;
     }
 
-    public @NotNull AbstractMessage<T> replace(@NotNull CharSequence target, @NotNull Object replacement) {
+    public @NotNull Message<T, U> replace(@NotNull CharSequence target, @NotNull Object replacement) {
         lines = lines.replace(target, replacement.toString());
         return this;
     }
 
-    public @NotNull AbstractMessage<T> replaceAll(@NotNull @RegEx String regex, @NotNull Object replacement) {
+    public @NotNull Message<T, U> replaceAll(@NotNull @RegEx String regex, @NotNull Object replacement) {
         lines = lines.replaceAll(regex, replacement.toString());
         return this;
     }
 
-    public @NotNull AbstractMessage<T> replaceFirst(@NotNull @RegEx String regex, @NotNull Object replacement) {
+    public @NotNull Message<T, U> replaceFirst(@NotNull @RegEx String regex, @NotNull Object replacement) {
         lines = lines.replaceFirst(regex, replacement.toString());
         return this;
     }
 
-    public @NotNull AbstractMessage<T> replace(@NotNull UnaryOperator<String> replacement) {
+    public @NotNull Message<T, U> replace(@NotNull UnaryOperator<String> replacement) {
         lines = replacement.apply(lines);
         return this;
     }

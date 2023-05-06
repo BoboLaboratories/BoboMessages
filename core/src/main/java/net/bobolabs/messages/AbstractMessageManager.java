@@ -10,31 +10,54 @@ import java.io.File;
 import java.util.Locale;
 
 /*
-        lang/
-            en_US/
-                enchants.yml
-                welcome.yml
+    - file.yml
+
+    - lang/
+        file1.yml
+        file2.yml
+
+    - lang/
+        en_US/
+            file1.yml
+            file2.yml
+
+    - lang/
+        en_US/
+            file1.yml
+            file2.yml
+        it_IT/
+            file1.yml
+            file2.yml
+
  */
-public abstract class AbstractMessageManager<T, U extends AbstractMessage<T>> implements MessageManager<T, U> {
+public abstract class AbstractMessageManager<T, U extends AbstractMessage<T, U>> implements MessageManager<T, U> {
 
     private static final String JOINER = "\u200B";
 
+    private final Locale defaultLocale;
     private TranslationRegistry registry;
     private final MiniMessage miniMessage;
 
-    protected AbstractMessageManager() {
-        miniMessage = MiniMessage.miniMessage();
+    protected AbstractMessageManager(@NotNull File langs, @NotNull Locale defaultLocale) {
+        this(MiniMessage.miniMessage(), langs, defaultLocale);
     }
 
-    protected AbstractMessageManager(@NotNull File langs) {
-        miniMessage = MiniMessage.miniMessage();
+    protected AbstractMessageManager(@NotNull MiniMessage miniMessage, @NotNull File langs, @NotNull Locale defaultLocale) {
+        this.defaultLocale = defaultLocale;
+        this.miniMessage = miniMessage;
+        // TODO load langs
     }
 
     protected abstract @NotNull String getNamespace();
 
     protected abstract @NotNull Locale getLocale(@NotNull T audience);
 
-    //@Override
+    @Override
+    public final @NotNull Locale getDefaultLocale() {
+        return defaultLocale;
+    }
+
+    @Override
     public void enable() {
         String namespace = getNamespace();
         Key key = Key.key(namespace, "main");
@@ -44,7 +67,7 @@ public abstract class AbstractMessageManager<T, U extends AbstractMessage<T>> im
         GlobalTranslator.translator().addSource(registry);
     }
 
-    //@Override
+    @Override
     public void disable() {
         if (registry != null) {
             GlobalTranslator.translator().removeSource(registry);
@@ -56,10 +79,6 @@ public abstract class AbstractMessageManager<T, U extends AbstractMessage<T>> im
     public @NotNull U getMessage(@NotNull T player, @NotNull String key) {
         Locale locale = getLocale(player);
         String raw = registry.translate("", locale).toPattern();
-
-
-
-
 
 
 //        if (lang != null) {

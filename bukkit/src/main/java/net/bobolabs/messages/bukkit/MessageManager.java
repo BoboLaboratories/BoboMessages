@@ -7,16 +7,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Locale;
 
 public class MessageManager extends AbstractMessageManager<CommandSender, Message> {
 
     private final JavaPlugin plugin;
-    private final MiniMessage miniMessage;
 
-    private MessageManager(@NotNull JavaPlugin plugin) {
+    public MessageManager(@NotNull JavaPlugin plugin, @NotNull File langs, @NotNull Locale defaultLocale) {
+        super(langs, defaultLocale);
         this.plugin = plugin;
-        this.miniMessage = MiniMessage.miniMessage();
+    }
+
+    public MessageManager(@NotNull JavaPlugin plugin, @NotNull MiniMessage miniMessage, @NotNull File langs, @NotNull Locale defaultLocale) {
+        super(miniMessage, langs, defaultLocale);
+        this.plugin = plugin;
     }
 
     @Override
@@ -29,8 +34,7 @@ public class MessageManager extends AbstractMessageManager<CommandSender, Messag
         if (audience instanceof Player player) {
             return player.locale();
         } else {
-            // TODO default locale
-            return null;
+            return getDefaultLocale();
         }
     }
 
