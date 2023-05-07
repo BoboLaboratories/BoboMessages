@@ -18,3 +18,18 @@ Message<CommandSender> message =
         Message message = new Message("some thing to message")
             .replace("%boh%", stuff)
             .send(player);
+
+
+
+## La tabella della felicitá
+
+|             | Paper |    Bungee     | Velocity |
+|:-----------:|:-----:|:-------------:|:--------:|
+|  Adventure  |   x   | BaseComponent |    x     |
+| MiniMessage |       |               |          |
+
+
+- [ ] Supportare il wrap in Message di Component creati a mano
+        ComponentLike componentLike = new ComponentLike("aaaaaa");
+        Message message = new Message(componentLike);
+        message.send();

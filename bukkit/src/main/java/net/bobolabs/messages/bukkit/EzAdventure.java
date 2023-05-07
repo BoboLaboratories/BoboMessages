@@ -1,6 +1,7 @@
 package net.bobolabs.messages.bukkit;
 
-import net.bobolabs.messages.AbstractMessageManager;
+import net.bobolabs.messages.AbstractEzAdventure;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,18 +11,23 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.Locale;
 
-public class MessageManager extends AbstractMessageManager<CommandSender, Message> {
+public class EzAdventure extends AbstractEzAdventure<CommandSender, Message> {
 
     private final JavaPlugin plugin;
 
-    public MessageManager(@NotNull JavaPlugin plugin, @NotNull File langs, @NotNull Locale defaultLocale) {
+    public EzAdventure(@NotNull JavaPlugin plugin, @NotNull File langs, @NotNull Locale defaultLocale) {
         super(langs, defaultLocale);
         this.plugin = plugin;
     }
 
-    public MessageManager(@NotNull JavaPlugin plugin, @NotNull MiniMessage miniMessage, @NotNull File langs, @NotNull Locale defaultLocale) {
+    public EzAdventure(@NotNull JavaPlugin plugin, @NotNull MiniMessage miniMessage, @NotNull File langs, @NotNull Locale defaultLocale) {
         super(miniMessage, langs, defaultLocale);
         this.plugin = plugin;
+    }
+
+    @Override
+    public @NotNull Component getComponent(@NotNull CommandSender audience, @NotNull String key) {
+        return null;
     }
 
     @Override

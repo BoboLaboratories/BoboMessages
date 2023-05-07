@@ -1,6 +1,8 @@
 package net.bobolabs.messages;
 
 import net.kyori.adventure.key.Key;
+import net.kyori.adventure.platform.AudienceProvider;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.TranslationRegistry;
@@ -8,18 +10,26 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /*
-    - file.yml
+
+    - lang.yml
 
     - lang/
         file1.yml
         file2.yml
 
     - lang/
+        lang_en_US.yml
+        lang_it_IT.yml
+
+    - lang/
         en_US/
             file1.yml
             file2.yml
+        file3.yml
+        file4.yml
 
     - lang/
         en_US/
@@ -28,71 +38,119 @@ import java.util.Locale;
         it_IT/
             file1.yml
             file2.yml
+        file3.yml
+        file4.yml
 
  */
-public abstract class AbstractMessageManager<T, U extends AbstractMessage<T, U>> implements MessageManager<T, U> {
+public abstract class AbstractEzAdventure<T, U extends AbstractMessage<T, U>> implements EzAdventure<T, U> {
 
     private static final String JOINER = "\u200B";
 
-    private final Locale defaultLocale;
+    private final File langs;
+
+    private LangLoadStrategy langLoadStrategy;
     private TranslationRegistry registry;
-    private final MiniMessage miniMessage;
+    private MiniMessage miniMessage;
+    private Locale defaultLocale;
+    private String namespace;
+    private boolean enabled;
 
-    protected AbstractMessageManager(@NotNull File langs, @NotNull Locale defaultLocale) {
-        this(MiniMessage.miniMessage(), langs, defaultLocale);
+    protected AbstractEzAdventure(@NotNull File langs) {
+        this.langs = langs;
     }
 
-    protected AbstractMessageManager(@NotNull MiniMessage miniMessage, @NotNull File langs, @NotNull Locale defaultLocale) {
+    public synchronized void setNamespace(@NotNull String namespace) {
+        if (enabled) {
+            throw new IllegalStateException("Could not set namespace while ezAdventure is enabled");
+        }
+        this.namespace = namespace;
+    }
+
+    public synchronized void setDefaultLocale(@NotNull Locale defaultLocale) {
+        if (enabled) {
+            throw new IllegalStateException("Could not set default Locale while ezAdventure is enabled");
+        }
         this.defaultLocale = defaultLocale;
-        this.miniMessage = miniMessage;
-        // TODO load langs
     }
 
-    protected abstract @NotNull String getNamespace();
+    public synchronized void setMiniMessage(@NotNull MiniMessage miniMessage) {
+        if (enabled) {
+            throw new IllegalStateException("Could not set MiniMessage while ezAdventure is enabled");
+        }
+        this.miniMessage = miniMessage;
+    }
 
-    protected abstract @NotNull Locale getLocale(@NotNull T audience);
+    public synchronized void setLangLoadStrategy(@NotNull LangLoadStrategy langLoadStrategy) {
+        if (enabled) {
+            throw new IllegalStateException("Could not set LangLoadStrategy while ezAdventure is enabled");
+        }
+        this.langLoadStrategy = langLoadStrategy;
+    }
+
+    @Override
+    public synchronized void enable() {
+        // Check mandatory data
+        if (defaultLocale == null) {
+
+        }
+        if (namespace == null) {
+
+        }
+
+        // Create non mandatory data
+        if (miniMessage == null) {
+
+        }
+
+
+
+        Key key = Key.key(namespace, "main");
+        registry = TranslationRegistry.create(key);
+        // TODO registry.defaultLocale(Locale.ITALIAN);
+
+        GlobalTranslator.translator().addSource(registry);
+
+        enabled = true;
+    }
+
+    @Override
+    public synchronized void disable() {
+        if (registry != null) {
+            GlobalTranslator.translator().removeSource(registry);
+            registry = null;
+        }
+
+        enabled = false;
+    }
 
     @Override
     public final @NotNull Locale getDefaultLocale() {
         return defaultLocale;
     }
 
-    @Override
-    public void enable() {
-        String namespace = getNamespace();
-        Key key = Key.key(namespace, "main");
-        registry = TranslationRegistry.create(key);
-        // TODO registry.defaultLocale(Locale.ITALIAN);
-
-        GlobalTranslator.translator().addSource(registry);
+    protected @NotNull String getRawMessage(@NotNull T audience, @NotNull String key) {
+        Locale locale = getLocale(audience);
+        return registry.translate("", locale).toPattern(); // TODO null check
     }
 
     @Override
-    public void disable() {
-        if (registry != null) {
-            GlobalTranslator.translator().removeSource(registry);
-            registry = null;
-        }
+    public @NotNull Component getComponent(@NotNull T audience, @NotNull String key) {
+        String serialized = getRawMessage(audience, key);
+        return miniMessage.deserialize(serialized);
     }
 
     @Override
-    public @NotNull U getMessage(@NotNull T player, @NotNull String key) {
-        Locale locale = getLocale(player);
-        String raw = registry.translate("", locale).toPattern();
-
-
-//        if (lang != null) {
-//            String rawMessage = lang.getString(key);
-//            if (rawMessage != null) {
-//                return new Message(audiences, miniMessage, rawMessage);
-//            } else {
-//                Logger.severe("La key: {0} non è stata trovata nel config", key);
-//            }
-//        } else {
-//            Logger.severe("Non è stato inizializzato nessun file di configuratione");
-//        }
-        return null;
+    public @NotNull U getMessage(@NotNull T audience, @NotNull String key) {
+        String serialized = getRawMessage(audience, key);
     }
+
+
+    protected final @NotNull String getNamespace() {
+        return namespace;
+    }
+
+    protected abstract @NotNull Locale getLocale(@NotNull T audience);
+
 
 //    public static @NotNull Message fromLines(@NotNull String... lines) {
 //        return new Message(audiences, miniMessage, lines);

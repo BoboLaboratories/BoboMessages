@@ -2,6 +2,7 @@ dependencies {
     compileOnly 'net.kyori:adventure-api:4.13.1'
 
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'net.kyori:adventure-platform-api:4.3.0'
     implementation 'net.kyori:adventure-text-minimessage:4.13.1'
 }
 
