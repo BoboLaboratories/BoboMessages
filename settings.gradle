@@ -9,7 +9,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         libs {
             plugin('shadow', 'com.github.johnrengelman.shadow').version('7.1.2')
-            library('bobolibs.core', 'net.bobolabs:core:[0.0.1,)')
+            library('bobolibs.core', 'net.bobolabs:core:[0.0.3,)')
         }
     }
 }

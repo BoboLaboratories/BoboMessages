@@ -1,8 +1,10 @@
 package net.bobolabs.messages.bukkit;
 
 import net.bobolabs.messages.AbstractEzAdventure;
+import net.bobolabs.messages.EzAdventureOptions;
+import net.bobolabs.messages.EzSendableComponent;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,18 +17,19 @@ public class EzAdventure extends AbstractEzAdventure<CommandSender, Message> {
 
     private final JavaPlugin plugin;
 
-    public EzAdventure(@NotNull JavaPlugin plugin, @NotNull File langs, @NotNull Locale defaultLocale) {
+    public EzAdventure(@NotNull JavaPlugin plugin, @NotNull EzAdventureOptions options) {
         super(langs, defaultLocale);
         this.plugin = plugin;
     }
 
-    public EzAdventure(@NotNull JavaPlugin plugin, @NotNull MiniMessage miniMessage, @NotNull File langs, @NotNull Locale defaultLocale) {
-        super(miniMessage, langs, defaultLocale);
-        this.plugin = plugin;
+    @NotNull
+    @Override
+    public EzSendableComponent<CommandSender, Message> getEzComponent(@NotNull CommandSender audience, @NotNull String key) {
+        return null;
     }
 
     @Override
-    public @NotNull Component getComponent(@NotNull CommandSender audience, @NotNull String key) {
+    public @NotNull Message ezify(@NotNull CommandSender audience, @NotNull ComponentLike component) {
         return null;
     }
 

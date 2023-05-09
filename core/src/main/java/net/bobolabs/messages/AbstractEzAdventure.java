@@ -1,16 +1,20 @@
 package net.bobolabs.messages;
 
+import net.bobolabs.core.Check;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.key.Key;
-import net.kyori.adventure.platform.AudienceProvider;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.TranslationRegistry;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
+
+import static net.bobolabs.core.Utils.coalesce;
 
 /*
 
@@ -41,115 +45,108 @@ import java.util.concurrent.atomic.AtomicBoolean;
         file3.yml
         file4.yml
 
- */
-public abstract class AbstractEzAdventure<T, U extends AbstractMessage<T, U>> implements EzAdventure<T, U> {
+*/
 
+public abstract class AbstractEzAdventure<T extends Audience, U extends EzComponent<T, U>>
+        implements EzAdventure<T, U>, EzAdventureConfigurable {
+
+    private static final LangLoadStrategy DEFAULT_LANG_LOAD_STRATEGY = LangLoadStrategy.FILE;
     private static final String JOINER = "\u200B";
 
-    private final File langs;
+    private final EzAdventureOptions options;
+    private TranslationRegistry translationRegistry;
 
-    private LangLoadStrategy langLoadStrategy;
-    private TranslationRegistry registry;
-    private MiniMessage miniMessage;
-    private Locale defaultLocale;
-    private String namespace;
-    private boolean enabled;
-
-    protected AbstractEzAdventure(@NotNull File langs) {
-        this.langs = langs;
-    }
-
-    public synchronized void setNamespace(@NotNull String namespace) {
-        if (enabled) {
-            throw new IllegalStateException("Could not set namespace while ezAdventure is enabled");
-        }
-        this.namespace = namespace;
-    }
-
-    public synchronized void setDefaultLocale(@NotNull Locale defaultLocale) {
-        if (enabled) {
-            throw new IllegalStateException("Could not set default Locale while ezAdventure is enabled");
-        }
-        this.defaultLocale = defaultLocale;
-    }
-
-    public synchronized void setMiniMessage(@NotNull MiniMessage miniMessage) {
-        if (enabled) {
-            throw new IllegalStateException("Could not set MiniMessage while ezAdventure is enabled");
-        }
-        this.miniMessage = miniMessage;
-    }
-
-    public synchronized void setLangLoadStrategy(@NotNull LangLoadStrategy langLoadStrategy) {
-        if (enabled) {
-            throw new IllegalStateException("Could not set LangLoadStrategy while ezAdventure is enabled");
-        }
-        this.langLoadStrategy = langLoadStrategy;
+    protected AbstractEzAdventure(@NotNull EzAdventureOptions options) {
+        this.options = options;
     }
 
     @Override
-    public synchronized void enable() {
-        // Check mandatory data
-        if (defaultLocale == null) {
+    public void onEnable() {
+        Key key = Key.key(getNamespace(), "main");
+        translationRegistry = TranslationRegistry.create(key);
+        translationRegistry.defaultLocale(getDefaultLocale());
 
-        }
-        if (namespace == null) {
-
-        }
-
-        // Create non mandatory data
-        if (miniMessage == null) {
-
-        }
-
-
-
-        Key key = Key.key(namespace, "main");
-        registry = TranslationRegistry.create(key);
-        // TODO registry.defaultLocale(Locale.ITALIAN);
-
-        GlobalTranslator.translator().addSource(registry);
-
-        enabled = true;
+        GlobalTranslator.translator().addSource(translationRegistry);
     }
 
     @Override
-    public synchronized void disable() {
-        if (registry != null) {
-            GlobalTranslator.translator().removeSource(registry);
-            registry = null;
+    public void onDisable() {
+        if (translationRegistry != null) {
+            GlobalTranslator.translator().removeSource(translationRegistry);
+            translationRegistry = null;
         }
-
-        enabled = false;
     }
 
     @Override
     public final @NotNull Locale getDefaultLocale() {
-        return defaultLocale;
+        return options.getDefaultLocale();
+    }
+
+    @Override
+    public final @NotNull String getNamespace() {
+        return options.getNamespace();
+    }
+
+    @Override
+    public final @NotNull File getLangs() {
+        return options.getLangs();
+    }
+
+    @Override
+    public final @NotNull LangLoadStrategy getLangLoadStrategy() {
+        return coalesce(options.getLangLoadStrategy(), () -> DEFAULT_LANG_LOAD_STRATEGY);
+    }
+
+    // A Stami piace :D
+    @Override
+    public final @NotNull MiniMessage getMiniMessage() {
+        return coalesce(options.getMiniMessage(), MiniMessage::miniMessage);
     }
 
     protected @NotNull String getRawMessage(@NotNull T audience, @NotNull String key) {
         Locale locale = getLocale(audience);
-        return registry.translate("", locale).toPattern(); // TODO null check
+        return translationRegistry.translate("", locale).toPattern(); // TODO null check
     }
 
     @Override
-    public @NotNull Component getComponent(@NotNull T audience, @NotNull String key) {
-        String serialized = getRawMessage(audience, key);
-        return miniMessage.deserialize(serialized);
+    public final @NotNull Component getComponent(@NotNull String key) {
+        return getComponent(getDefaultLocale(), key);
     }
 
     @Override
-    public @NotNull U getMessage(@NotNull T audience, @NotNull String key) {
-        String serialized = getRawMessage(audience, key);
+    public final @NotNull Component getComponent(@NotNull Locale locale, @NotNull String key) {
+        MessageFormat messageFormat = translationRegistry.translate(key, locale);
+        Check.argument(messageFormat != null, () -> "unknown translation key " + key + " for locale " + locale);
+        return getMiniMessage().deserialize(messageFormat.toPattern());
     }
 
-
-    protected final @NotNull String getNamespace() {
-        return namespace;
+    @Override
+    public final @NotNull Component getComponent(@NotNull T audience, @NotNull String key) {
+        Locale locale = getLocale(audience);
+        if (locale == null) {
+            locale = getDefaultLocale();
+        }
+        return getComponent(locale, key);
     }
 
-    protected abstract @NotNull Locale getLocale(@NotNull T audience);
+    @Override
+    public final @NotNull U getEzComponent(@NotNull String key) {
+        Component component = getComponent(key);
+        return ezify();
+    }
+
+    @Override
+    public final @NotNull U getEzComponent(@NotNull Locale locale, @NotNull String key) {
+
+        return null;
+    }
+
+    @Override
+    public final @NotNull EzSendableComponent<T, U> getEzComponent(@NotNull T audience, @NotNull String key) {
+        return null;
+    }
+
+    protected abstract @Nullable Locale getLocale(@NotNull T audience);
 
 
 //    public static @NotNull Message fromLines(@NotNull String... lines) {
@@ -249,4 +246,5 @@ public abstract class AbstractEzAdventure<T, U extends AbstractMessage<T, U>> im
 //    public @NotNull MiniMessage getMiniMessage() {
 //        return miniMessage;
 //    }
+
 }
