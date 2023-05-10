@@ -8,6 +8,12 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+// TODO: Non è possibile implementare i replace in AbstractEzAdventurePhase3?
+//  bisognerebbe tenere in conto che dovrebbero essere risolti solamente una volta
+//  invocato il .send()
+
+// In questo modo l'unica cosa da implementare in questa classe sarebbe il .send()
+// e il modo per risolvere i placeholder
 public class VelocityEzAdventurePhase3
         extends AbstractEzAdventurePhase3<CommandSource, VelocityEzAdventurePhase3>
         implements EzAdventurePhase3<CommandSource, VelocityEzAdventurePhase3> {
