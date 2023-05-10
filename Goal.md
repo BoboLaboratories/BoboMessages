@@ -21,6 +21,11 @@ Message<CommandSender> message =
 
 
 
+key
+component deserializzato minimessage
+[opt] ez replacement
+send (...)
+
 ## La tabella della felicitá
 
 |             | Paper |    Bungee     | Velocity |

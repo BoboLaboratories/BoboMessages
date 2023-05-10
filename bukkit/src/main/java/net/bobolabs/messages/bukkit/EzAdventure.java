@@ -3,40 +3,39 @@ package net.bobolabs.messages.bukkit;
 import net.bobolabs.messages.AbstractEzAdventure;
 import net.bobolabs.messages.EzAdventureOptions;
 import net.bobolabs.messages.EzSendableComponent;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
+import net.bobolabs.messages.tmp.EzInstanceAdventure;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.Locale;
+import java.util.function.Predicate;
 
-public class EzAdventure extends AbstractEzAdventure<CommandSender, Message> {
+public class EzAdventure extends AbstractEzAdventure<CommandSender> implements EzInstanceAdventure<CommandSender> {
 
+    private final BukkitAudiences audiences;
     private final JavaPlugin plugin;
 
     public EzAdventure(@NotNull JavaPlugin plugin, @NotNull EzAdventureOptions options) {
-        super(langs, defaultLocale);
+        super(options);
         this.plugin = plugin;
+        this.audiences = BukkitAudiences.create(plugin);
     }
 
-    @NotNull
-    @Override
-    public EzSendableComponent<CommandSender, Message> getEzComponent(@NotNull CommandSender audience, @NotNull String key) {
-        return null;
+
+    public @NotNull BukkitAudiences getKyori() {
+        return audiences;
     }
 
-    @Override
-    public @NotNull Message ezify(@NotNull CommandSender audience, @NotNull ComponentLike component) {
-        return null;
-    }
 
-    @Override
-    protected @NotNull String getNamespace() {
-        return plugin.getName();
-    }
+
+
+
+
+
 
     @Override
     protected @NotNull Locale getLocale(@NotNull CommandSender audience) {
@@ -45,6 +44,15 @@ public class EzAdventure extends AbstractEzAdventure<CommandSender, Message> {
         } else {
             return getDefaultLocale();
         }
+    }
+
+    @Override
+    public @NotNull EzSendableComponent filter(@NotNull String key, @NotNull Predicate<CommandSender> filter) {
+        for (CommandSender sender : Bukkit.getOnlinePlayers()) {
+
+        }
+
+        return null;
     }
 
 }

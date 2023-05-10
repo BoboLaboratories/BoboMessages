@@ -1,13 +1,11 @@
 package net.bobolabs.messages;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.Locale;
 
-public interface EzAdventureConfigurable {
+interface EzAdventureConfigurable {
 
     String getNamespace();
 
