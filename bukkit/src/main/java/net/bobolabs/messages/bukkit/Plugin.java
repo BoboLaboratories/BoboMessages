@@ -1,18 +1,24 @@
 package net.bobolabs.messages.bukkit;
 
+import net.bobolabs.messages.EzAdventureOptions;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Plugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        BukkitEzAdventure adventure = new BukkitEzAdventure();
+
+
+
+        BukkitEzAdventure adventure = new BukkitEzAdventure(this, null);
         String eventName = "MyEvent";
         World world = Objects.requireNonNull(Bukkit.getWorld("world"));
         Player player = Objects.requireNonNull(Bukkit.getPlayer(""));
