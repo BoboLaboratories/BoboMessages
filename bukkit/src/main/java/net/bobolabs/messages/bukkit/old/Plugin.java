@@ -114,8 +114,6 @@ public class Plugin extends JavaPlugin {
         );
 
 
-
-
 //        //Component aMano = Component.text("Ciao");
 //        EzAdventure adventure = new EzAdventure(this, new File("non-ce-la-faccio.yml"), Locale.CANADA);
 //

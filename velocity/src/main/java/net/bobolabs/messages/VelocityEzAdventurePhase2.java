@@ -6,7 +6,6 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import org.jetbrains.annotations.NotNull;
 
-import java.rmi.server.RemoteServer;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;

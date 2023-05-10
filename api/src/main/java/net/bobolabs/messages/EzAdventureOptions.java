@@ -61,7 +61,8 @@ public class EzAdventureOptions implements EzAdventureConfigurable {
         private LangLoadStrategy langLoadStrategy = LangLoadStrategy.SIMPLE;
         private @Nullable MiniMessage miniMessage;
 
-        public Builder() {}
+        public Builder() {
+        }
 
         public @NotNull EzAdventureOptionsNamespace langs(@NotNull File langs) {
             return new EzAdventureOptionsNamespace(langs);
@@ -81,11 +82,11 @@ public class EzAdventureOptions implements EzAdventureConfigurable {
 
     public static class EzAdventureOptionsNamespace extends Builder {
         private final File langs;
-        
+
         private EzAdventureOptionsNamespace(@NotNull File langs) {
-           this.langs = langs;
+            this.langs = langs;
         }
-        
+
         public @NotNull EzAdventureOptionsLangs namespace(@NotNull String namespace) {
             return new EzAdventureOptionsLangs(namespace, langs);
         }
@@ -95,7 +96,7 @@ public class EzAdventureOptions implements EzAdventureConfigurable {
     public static class EzAdventureOptionsLangs extends Builder {
         private final String namespace;
         private final File langs;
-        
+
         private EzAdventureOptionsLangs(@NotNull String namespace, @NotNull File langs) {
             this.namespace = namespace;
             this.langs = langs;

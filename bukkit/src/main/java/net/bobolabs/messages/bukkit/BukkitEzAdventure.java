@@ -8,12 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class BukkitEzAdventure extends AbstractEzAdventurePhase0<CommandSender, BukkitEzAdventurePhase1, BukkitEzAdventurePhase2, BukkitEzAdventurePhase3> {
 
-    private final EzAdventureOptions options;
     private final JavaPlugin plugin;
 
     public BukkitEzAdventure(@NotNull JavaPlugin plugin, @NotNull EzAdventureOptions options) {
+        super(options);
         this.plugin = plugin;
-        this.options = options;
     }
 
     @Override

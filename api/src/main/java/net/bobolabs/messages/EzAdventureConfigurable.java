@@ -1,17 +1,18 @@
 package net.bobolabs.messages;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.Locale;
 
 interface EzAdventureConfigurable {
 
-    String getNamespace();
+    @NotNull String getNamespace();
 
-    Locale getDefaultLocale();
+    @NotNull Locale getDefaultLocale();
 
-    File getLangs();
+    @NotNull File getLangs();
 
     LangLoadStrategy getLangLoadStrategy();
 

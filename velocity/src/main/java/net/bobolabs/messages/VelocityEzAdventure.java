@@ -2,10 +2,7 @@ package net.bobolabs.messages;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
-import net.kyori.adventure.text.ComponentLike;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
 
 public class VelocityEzAdventure extends AbstractEzAdventurePhase0<CommandSource, VelocityEzAdventurePhase1, VelocityEzAdventurePhase2, VelocityEzAdventurePhase3> {
 

@@ -31,12 +31,6 @@ public class EzAdventure extends AbstractEzAdventure<CommandSender> implements E
     }
 
 
-
-
-
-
-
-
     @Override
     protected @NotNull Locale getLocale(@NotNull CommandSender audience) {
         if (audience instanceof Player player) {

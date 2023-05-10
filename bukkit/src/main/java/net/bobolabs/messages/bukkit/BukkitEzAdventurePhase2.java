@@ -8,10 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class BukkitEzAdventurePhase2
         extends AbstractEzAdventurePhase2<CommandSender, BukkitEzAdventurePhase3>
@@ -19,8 +20,15 @@ public class BukkitEzAdventurePhase2
 
     @Override
     public @NotNull BukkitEzAdventurePhase3 filter(@NotNull Predicate<CommandSender> filter) {
-        return new BukkitEzAdventurePhase3(() ->
-                Bukkit.getOnlinePlayers().stream().filter(filter).collect(Collectors.toList()));
+        return new BukkitEzAdventurePhase3(() -> {
+            List<CommandSender> filtered = new ArrayList<>();
+            for (CommandSender sender : Bukkit.getOnlinePlayers()) {
+                if (filter.test(sender)) {
+                    filtered.add(sender);
+                }
+            }
+            return filtered;
+        });
     }
 
     @Override
@@ -33,10 +41,12 @@ public class BukkitEzAdventurePhase2
         return new BukkitEzAdventurePhase3(() -> List.of(sender));
     }
 
-    // TODO: Gestire NullPointer
     @Override
     public @NotNull BukkitEzAdventurePhase3 sender(@NotNull UUID sender) {
-        return new BukkitEzAdventurePhase3(() -> List.of(Bukkit.getPlayer(sender)));
+        return new BukkitEzAdventurePhase3(() -> {
+            CommandSender player = Bukkit.getPlayer(sender);
+            return player != null ? List.of(player) : Collections.emptyList();
+        });
     }
 
     @Override

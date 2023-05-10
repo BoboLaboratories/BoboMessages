@@ -19,8 +19,6 @@ Message<CommandSender> message =
             .replace("%boh%", stuff)
             .send(player);
 
-
-
 key
 component deserializzato minimessage
 [opt] ez replacement
@@ -33,8 +31,7 @@ send (...)
 |  Adventure  |   x   | BaseComponent |    x     |
 | MiniMessage |       |               |          |
 
-
 - [ ] Supportare il wrap in Message di Component creati a mano
-        ComponentLike componentLike = new ComponentLike("aaaaaa");
-        Message message = new Message(componentLike);
-        message.send();
+  ComponentLike componentLike = new ComponentLike("aaaaaa");
+  Message message = new Message(componentLike);
+  message.send();
