@@ -1,135 +1,61 @@
 package net.bobolabs.messages.bukkit;
 
-import net.bobolabs.messages.EzAdventureOptions;
-import net.bobolabs.messages.LangLoadStrategy;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.util.Locale;
+import java.util.Objects;
 
 public class Plugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        EzAdventureOptions opts = new EzAdventureOptions.Builder()
-                .langs(new File(getDataFolder(), "langs"))
-                .namespace("bobo.labs")
-                .locale(Locale.ENGLISH)
-                .langLoadStrategy(LangLoadStrategy.FILE);
-
-
-        EzAdventure adventure = new EzAdventure(this, opts);
-
-
-        // it_IT: Benvenuto, <bold>%player%</bold>!
-        // en_US: Welcome, <bold>%player%</bold>!
-
-        /*
-
-            it_IT: Inizia l'evento, <bold>%player%</bold>!
-            en_US: The event is starting, <bold>%player%</bold>!
-
-            adventure.async().key("my.message.key")
-                    .replace("%player%, player -> player.getDisplayName())
-                    .replace(m -> Qualcosa.diSync(m))
-                    .raw(component -> Qualcosa.suRawComponentDiKyori(component));
-                    .sendFilter(sender ->
-                        sender instanceof Player player
-                                && player.getWorld().getName().equals("world")
-                                && player.hasPermission("perm"));
+        BukkitEzAdventure adventure = new BukkitEzAdventure();
+        String eventName = "MyEvent";
+        World world = Objects.requireNonNull(Bukkit.getWorld("world"));
+        Player player = Objects.requireNonNull(Bukkit.getPlayer(""));
 
 
 
+        // Sends MiniMessage deserialized message based on a
+        // constant string to anybody in the server who has
+        // vip.claim.alert permission and replaces their name
+        adventure.async()
+                .text("You can redeem your <bold>rewards</bold>, %player%!")
+                .permission("vip.claim.alert")
+                .replace("%player%", p -> ((Player) p).displayName())
+                .send();
 
 
+        // Sends MiniMessage deserialized message based on
+        // translated (localized) lang files (it_IT, en_US, etc.)
+        // to any player in a given world, plus replacements
+        //      it_IT: <bold>%player%</bold>, inizia l'evento %event_name%!
+        //      en_US: %event_name% is starting, <bold>%player%</bold>!
+        adventure.async()
+                .lang("events.starting")
+                .world(world)
+                .replace("%player%", p -> ((Player) p).displayName())
+                .replace("%event_name%", eventName)
+                .send();
 
 
-
-
-
-            it_IT: Inizia l'evento %event_name%, <bold>%player%</bold>!
-            en_US: %event_name% is starting, <bold>%player%</bold>!
-
-
-            adventure.async()
-                .lang("event.starting")
-                .filter(p -> p.getWorld().equals(world) && p.hasPermission("perm"))
-                .replace("%event_name%, eventName)
-                .replace("%player%, p -> p.getDisplayName())
+        // Flexibility (non ho voglia di scrivere altri commenti)
+        Component handMade = Component.text("whatever");
+        adventure.async()
+                .component(handMade)
+                .filter(s -> s instanceof Player p
+                        && p.getWorld().equals(world)
+                        && p.hasPermission("my.perm")
+                        && p.isFlying())
                 .send();
 
 
 
 
 
-
-            adventure.async()
-
-                .lang
-                .component
-                .text("Ciao %edo%")
-
-                .filter(filter, component)
-                ...
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            - sync/sync
-            - component
-            - audience
-            - replacements
-            - send
-
-
-
-            - async replacements/deserializement
-            - automatic localization
-            - flexibility
-
-         */
-
-        adventure.filter("my.key", sender ->
-                sender instanceof Player player
-                        && player.getWorld().getName().equals("world")
-                        && player.hasPermission("perm")
-        );
-
-
-
-
-//        //Component aMano = Component.text("Ciao");
-//        EzAdventure adventure = new EzAdventure(this, new File("non-ce-la-faccio.yml"), Locale.CANADA);
-//
-//        EzComponent ezComponent = adventure.getComponent(player, "my.key");
-//        ezComponent.replace(...)
-//            .send();
-//
-//        Component component = ezComponent.lessEz();
-//        itemStack.
-//
-//        adventure.ezify(component)
-//                .replace();
-//
-//
-//        net.bobolabs.messages.Message<T, U> message = this.getMessage(null, "key");
-//        message.replace("%ciao%");
     }
 
 }

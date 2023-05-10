@@ -1,6 +1,6 @@
 rootProject.name = 'messages'
 
-for (module in ['core', 'bukkit', 'bungee', 'velocity']) {
+for (module in ['api', 'proxy-api', 'instance-api', 'common', 'core', 'bukkit', 'bungee', 'velocity']) {
     include("${module}")
     project(":${module}").projectDir = file(module)
 }

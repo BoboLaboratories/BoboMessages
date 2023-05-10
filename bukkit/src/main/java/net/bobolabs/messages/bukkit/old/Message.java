@@ -1,4 +1,4 @@
-package net.bobolabs.messages.bukkit;
+package net.bobolabs.messages.bukkit.old;
 
 import net.bobolabs.messages.EzComponent;
 import net.bobolabs.messages.EzSendableComponent;

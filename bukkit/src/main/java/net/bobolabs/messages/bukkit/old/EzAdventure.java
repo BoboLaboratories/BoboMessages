@@ -1,4 +1,4 @@
-package net.bobolabs.messages.bukkit;
+package net.bobolabs.messages.bukkit.old;
 
 import net.bobolabs.messages.AbstractEzAdventure;
 import net.bobolabs.messages.EzAdventureOptions;
