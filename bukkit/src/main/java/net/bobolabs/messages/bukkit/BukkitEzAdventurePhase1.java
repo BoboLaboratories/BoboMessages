@@ -25,5 +25,4 @@ public class BukkitEzAdventurePhase1 extends AbstractEzAdventurePhase1<CommandSe
     }
 
 
-
 }

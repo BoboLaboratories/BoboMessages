@@ -2,7 +2,6 @@ package net.bobolabs.messages.bukkit;
 
 import net.bobolabs.messages.AbstractEzAdventure;
 import net.bobolabs.messages.EzAdventureOptions;
-import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;

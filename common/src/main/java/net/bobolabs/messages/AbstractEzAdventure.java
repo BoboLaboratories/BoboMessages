@@ -112,4 +112,5 @@ public abstract class AbstractEzAdventure<A,
         String str = Objects.requireNonNull(translationRegistry.translate(key, locale)).toPattern();
         return miniMessage.deserialize(str);
     }
+
 }

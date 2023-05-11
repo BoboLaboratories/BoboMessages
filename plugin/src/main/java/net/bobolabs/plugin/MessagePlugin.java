@@ -1,6 +1,5 @@
 package net.bobolabs.plugin;
 
-import net.bobolabs.core.Reloadable;
 import net.bobolabs.messages.EzAdventureOptions;
 import net.bobolabs.messages.bukkit.BukkitEzAdventure;
 import org.bukkit.Bukkit;
