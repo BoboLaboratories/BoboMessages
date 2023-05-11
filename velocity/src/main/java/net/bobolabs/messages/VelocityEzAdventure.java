@@ -4,7 +4,7 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.jetbrains.annotations.NotNull;
 
-public class VelocityEzAdventure extends AbstractEzAdventurePhase0<CommandSource, VelocityEzAdventurePhase1, VelocityEzAdventurePhase2, VelocityEzAdventurePhase3> {
+public class VelocityEzAdventure extends AbstractEzAdventure<CommandSource, VelocityEzAdventurePhase1, VelocityEzAdventurePhase2, VelocityEzAdventurePhase3> {
 
     // Boh?
     private final EzAdventureOptions options;

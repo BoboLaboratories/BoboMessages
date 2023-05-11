@@ -48,7 +48,7 @@ public class EzAdventureOptions implements EzAdventureConfigurable {
         return langLoadStrategy;
     }
 
-    public @Nullable MiniMessage getMiniMessage() {
+    public @Nullable MiniMessage miniMessage() {
         return miniMessage;
     }
 

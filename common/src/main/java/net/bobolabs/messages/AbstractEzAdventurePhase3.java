@@ -3,7 +3,6 @@ package net.bobolabs.messages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TextReplacementConfig;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,15 +15,15 @@ import java.util.regex.MatchResult;
 public abstract class AbstractEzAdventurePhase3<A, P3 extends EzAdventurePhase3<A, P3>> implements EzAdventurePhase3<A, P3> {
 
     private final Supplier<Collection<A>> audiences;
-    private final MiniMessage miniMessage;
     private final List<@NotNull Function<@NotNull A, TextReplacementConfig>> replacements;
+    private final Function<@NotNull A, @NotNull ComponentLike> componentSupplier;
 
-    // MiniMessage
-    protected AbstractEzAdventurePhase3(@NotNull Supplier<@NotNull Collection<@NotNull A>> audience) {
+    protected AbstractEzAdventurePhase3(@NotNull AbstractEzAdventure<A, ?, ?, P3> ezAdventure,
+                                        @NotNull Supplier<@NotNull Collection<@NotNull A>> audience,
+                                        @NotNull Function<@NotNull A, @NotNull ComponentLike> componentSupplier) {
+        this.componentSupplier = componentSupplier;
         this.replacements = new ArrayList<>();
         this.audiences = audience;
-        // TODO:
-        this.miniMessage = null;
     }
 
     private static @NotNull String asReplacedString(@NotNull Object replacement) {
@@ -107,26 +106,22 @@ public abstract class AbstractEzAdventurePhase3<A, P3 extends EzAdventurePhase3<
         return (P3) this;
     }
 
-    protected final @NotNull List<@NotNull Function<@NotNull A, @NotNull TextReplacementConfig>> getReplacements() {
-        return replacements;
-    }
-
-    protected abstract void send(@NotNull A audience, @NotNull ComponentLike component);
-
     @Override
     public final void send() {
-        for (A audience : audiences.get()) {
-            // Roba con il lang
-            // ...
+        // TODO: consider async
 
-            Component component = null;
+        for (A audience : audiences.get()) {
+            Component component = componentSupplier.apply(audience).asComponent();
 
             for (Function<A, TextReplacementConfig> replacement : replacements) {
-                TextReplacementConfig config = replacement.apply(audience);
-                component = component.replaceText(config);
+                TextReplacementConfig replacementConfig = replacement.apply(audience);
+                component = component.replaceText(replacementConfig);
             }
 
             send(audience, component);
         }
     }
+
+    protected abstract void send(@NotNull A audience, @NotNull ComponentLike component);
+
 }

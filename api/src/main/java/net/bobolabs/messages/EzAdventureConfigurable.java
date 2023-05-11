@@ -16,6 +16,6 @@ interface EzAdventureConfigurable {
 
     LangLoadStrategy getLangLoadStrategy();
 
-    MiniMessage getMiniMessage();
+    MiniMessage miniMessage();
 
 }

@@ -2,6 +2,7 @@ package net.bobolabs.messages.bukkit;
 
 import net.bobolabs.messages.AbstractEzAdventurePhase2;
 import net.bobolabs.messages.InstanceEzAdventurePhase2;
+import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -12,11 +13,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class BukkitEzAdventurePhase2
+class BukkitEzAdventurePhase2
         extends AbstractEzAdventurePhase2<CommandSender, BukkitEzAdventurePhase3>
         implements InstanceEzAdventurePhase2<CommandSender, BukkitEzAdventurePhase3, World> {
+
+    protected BukkitEzAdventurePhase2(@NotNull Function<@NotNull CommandSender, @NotNull ComponentLike> componentSupplier) {
+        super(componentSupplier);
+    }
 
     @Override
     public @NotNull BukkitEzAdventurePhase3 filter(@NotNull Predicate<CommandSender> filter) {
@@ -28,7 +34,7 @@ public class BukkitEzAdventurePhase2
                 }
             }
             return filtered;
-        });
+        }, getComponentSupplier());
     }
 
     @Override
@@ -38,7 +44,7 @@ public class BukkitEzAdventurePhase2
 
     @Override
     public @NotNull BukkitEzAdventurePhase3 sender(@NotNull CommandSender sender) {
-        return new BukkitEzAdventurePhase3(() -> List.of(sender));
+        return new BukkitEzAdventurePhase3(() -> List.of(sender), getComponentSupplier());
     }
 
     @Override
@@ -46,7 +52,7 @@ public class BukkitEzAdventurePhase2
         return new BukkitEzAdventurePhase3(() -> {
             CommandSender player = Bukkit.getPlayer(sender);
             return player != null ? List.of(player) : Collections.emptyList();
-        });
+        }, getComponentSupplier());
     }
 
     @Override

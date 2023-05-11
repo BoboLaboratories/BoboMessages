@@ -4,7 +4,10 @@ import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.regex.MatchResult;
 
 public class ComponentReplacer<A> implements Replacer<A, ComponentLike> {

@@ -19,6 +19,7 @@ public class VelocityEzAdventurePhase2
 
     // TODO: Si può fare?
     public VelocityEzAdventurePhase2(@NotNull ProxyServer server) {
+        super(componentSupplier);
         this.proxyServer = server;
     }
 

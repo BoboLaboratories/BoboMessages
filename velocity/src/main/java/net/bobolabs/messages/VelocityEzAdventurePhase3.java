@@ -5,9 +5,7 @@ import net.kyori.adventure.text.ComponentLike;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 public class VelocityEzAdventurePhase3
         extends AbstractEzAdventurePhase3<CommandSource, VelocityEzAdventurePhase3>

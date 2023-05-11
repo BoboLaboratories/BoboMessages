@@ -1,8 +1,11 @@
 package net.bobolabs.messages;
 
 import net.bobolabs.core.Reloadable;
+import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
 
 public interface EzAdventurePhase0<A,
         P1 extends EzAdventurePhase1<A, P2, P3>,
@@ -15,6 +18,14 @@ public interface EzAdventurePhase0<A,
 
     @NotNull LangLoadStrategy getLangLoadStrategy();
 
-    @NotNull MiniMessage getMiniMessage();
+    @NotNull MiniMessage miniMessage();
+
+    // --------------------------------
+
+    @NotNull ComponentLike getLocalizedComponent(@NotNull A audience, @NotNull String key);
+
+    @NotNull ComponentLike getLocalizedComponent(@NotNull Locale locale, @NotNull String key);
+
+    @NotNull Locale getLocale(@NotNull A audience);
 
 }

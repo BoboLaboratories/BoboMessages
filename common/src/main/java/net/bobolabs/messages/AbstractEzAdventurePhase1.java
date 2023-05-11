@@ -4,42 +4,44 @@ import net.kyori.adventure.text.ComponentLike;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.List;
 
-public class AbstractEzAdventurePhase1<A, P2 extends EzAdventurePhase2<A, P3>, P3 extends EzAdventurePhase3<A, P3>> implements EzAdventurePhase1<A, P2, P3> {
+public abstract class AbstractEzAdventurePhase1<A, P2 extends EzAdventurePhase2<A, P3>, P3 extends EzAdventurePhase3<A, P3>> implements EzAdventurePhase1<A, P2, P3> {
 
+    private static final String DEFAULT_LINE_JOINER = "\n";
+
+    private final AbstractEzAdventure<A, ?, P2, P3> ezAdventure;
     private final boolean async;
 
-    public AbstractEzAdventurePhase1(boolean async) {
+    protected AbstractEzAdventurePhase1(@NotNull AbstractEzAdventure<A, ?, P2, P3> ezAdventure, boolean async) {
+        this.ezAdventure = ezAdventure;
         this.async = async;
     }
 
     @Override
-    public @NotNull P2 lang(@NotNull String key) {
-        return null;
+    public final @NotNull P2 text(@NotNull String text) {
+        ComponentLike component = ezAdventure.miniMessage().deserialize(text);
+        return component(component);
     }
 
     @Override
-    public @NotNull P2 text(@NotNull String text) {
-        return null;
+    public final @NotNull P2 text(@NotNull String[] text) {
+        Collection<String> collection = List.of(text);
+        return text(collection);
     }
 
     @Override
-    public @NotNull P2 text(@NotNull String[] text) {
-        return null;
+    public final @NotNull P2 text(@NotNull Collection<String> text) {
+        String joined = String.join(DEFAULT_LINE_JOINER, text);
+        return text(joined);
     }
 
-    @Override
-    public @NotNull P2 text(@NotNull Collection<String> text) {
-        return null;
-    }
-
-    @Override
-    public @NotNull P2 component(@NotNull ComponentLike component) {
-        return null;
-    }
-
-    protected boolean isAsync() {
+    protected final boolean isAsync() {
         return async;
+    }
+
+    protected final @NotNull AbstractEzAdventure<A, ?, P2, P3> getEzAdventure() {
+        return ezAdventure;
     }
 
 }

@@ -1,6 +1,5 @@
 package net.bobolabs.messages.bukkit.old;
 
-import net.bobolabs.messages.AbstractEzAdventure;
 import net.bobolabs.messages.EzAdventureOptions;
 import net.bobolabs.messages.EzSendableComponent;
 import net.bobolabs.messages.tmp.EzInstanceAdventure;

@@ -9,25 +9,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 
 import static net.bobolabs.core.Utils.coalesce;
 
-public abstract class AbstractEzAdventurePhase0<A,
+public abstract class AbstractEzAdventure<A,
         P1 extends EzAdventurePhase1<A, P2, P3>,
         P2 extends EzAdventurePhase2<A, P3>,
         P3 extends EzAdventurePhase3<A, P3>> implements EzAdventurePhase0<A, P1, P2, P3> {
 
-    private static final String DEFAULT_LINE_JOINER = "\n";
-
-    private MiniMessage miniMessage;
-
     private final EzAdventureOptions options;
 
     private TranslationRegistry translationRegistry;
+    private MiniMessage miniMessage;
 
-    protected AbstractEzAdventurePhase0(@NotNull EzAdventureOptions options) {
+    protected AbstractEzAdventure(@NotNull EzAdventureOptions options) {
         this.options = options;
     }
 
@@ -36,7 +32,7 @@ public abstract class AbstractEzAdventurePhase0<A,
         Key key = Key.key(getNamespace(), "main");
         translationRegistry = TranslationRegistry.create(key);
         translationRegistry.defaultLocale(getDefaultLocale());
-        miniMessage = coalesce(options.getMiniMessage(), MiniMessage::miniMessage);
+        miniMessage = coalesce(options.miniMessage(), MiniMessage::miniMessage);
         GlobalTranslator.translator().addSource(translationRegistry);
     }
 
@@ -65,14 +61,12 @@ public abstract class AbstractEzAdventurePhase0<A,
 
     @Override
     public @NotNull P2 text(@NotNull String[] text) {
-        Collection<String> collection = List.of(text);
-        return text(collection);
+        return sync().text(text);
     }
 
     @Override
     public @NotNull P2 text(@NotNull Collection<String> text) {
-        String joined = String.join(DEFAULT_LINE_JOINER, text);
-        return text(joined);
+        return sync().text(text);
     }
 
     @Override
@@ -96,8 +90,14 @@ public abstract class AbstractEzAdventurePhase0<A,
     }
 
     @Override
-    public final @NotNull MiniMessage getMiniMessage() {
+    public final @NotNull MiniMessage miniMessage() {
         return miniMessage;
+    }
+
+    @Override
+    public final @NotNull ComponentLike getLocalizedComponent(@NotNull A audience, @NotNull String key) {
+        Locale locale = coalesce(getLocale(audience), this::getDefaultLocale);
+        return getLocalizedComponent(locale, key);
     }
 
 }
