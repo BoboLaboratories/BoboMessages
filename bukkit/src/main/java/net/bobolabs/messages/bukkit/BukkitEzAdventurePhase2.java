@@ -9,24 +9,24 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-class BukkitEzAdventurePhase2
+public class BukkitEzAdventurePhase2
         extends AbstractEzAdventurePhase2<CommandSender, BukkitEzAdventurePhase3>
         implements InstanceEzAdventurePhase2<CommandSender, BukkitEzAdventurePhase3, World> {
 
-    protected BukkitEzAdventurePhase2(@NotNull Function<@NotNull CommandSender, @NotNull ComponentLike> componentSupplier) {
+    private final BukkitEzAdventure ezAdventure;
+
+    protected BukkitEzAdventurePhase2(@NotNull BukkitEzAdventure ezAdventure, @NotNull Function<@NotNull CommandSender, @NotNull ComponentLike> componentSupplier) {
         super(componentSupplier);
+        this.ezAdventure = ezAdventure;
     }
 
     @Override
     public @NotNull BukkitEzAdventurePhase3 filter(@NotNull Predicate<CommandSender> filter) {
-        return new BukkitEzAdventurePhase3(() -> {
+        return new BukkitEzAdventurePhase3(ezAdventure, () -> {
             List<CommandSender> filtered = new ArrayList<>();
             for (CommandSender sender : Bukkit.getOnlinePlayers()) {
                 if (filter.test(sender)) {
@@ -44,12 +44,12 @@ class BukkitEzAdventurePhase2
 
     @Override
     public @NotNull BukkitEzAdventurePhase3 sender(@NotNull CommandSender sender) {
-        return new BukkitEzAdventurePhase3(() -> List.of(sender), getComponentSupplier());
+        return new BukkitEzAdventurePhase3(ezAdventure, () -> List.of(sender), getComponentSupplier());
     }
 
     @Override
     public @NotNull BukkitEzAdventurePhase3 sender(@NotNull UUID sender) {
-        return new BukkitEzAdventurePhase3(() -> {
+        return new BukkitEzAdventurePhase3(ezAdventure, () -> {
             CommandSender player = Bukkit.getPlayer(sender);
             return player != null ? List.of(player) : Collections.emptyList();
         }, getComponentSupplier());

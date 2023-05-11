@@ -40,8 +40,4 @@ public abstract class AbstractEzAdventurePhase1<A, P2 extends EzAdventurePhase2<
         return async;
     }
 
-    protected final @NotNull AbstractEzAdventure<A, ?, P2, P3> getEzAdventure() {
-        return ezAdventure;
-    }
-
 }

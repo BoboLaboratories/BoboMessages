@@ -6,9 +6,7 @@ import net.kyori.adventure.text.TextReplacementConfig;
 import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.*;
 import java.util.regex.MatchResult;
 
@@ -17,6 +15,7 @@ public abstract class AbstractEzAdventurePhase3<A, P3 extends EzAdventurePhase3<
     private final Supplier<Collection<A>> audiences;
     private final List<@NotNull Function<@NotNull A, TextReplacementConfig>> replacements;
     private final Function<@NotNull A, @NotNull ComponentLike> componentSupplier;
+    private final AbstractEzAdventure<A, ?, ?, P3> ezAdventure;
 
     protected AbstractEzAdventurePhase3(@NotNull AbstractEzAdventure<A, ?, ?, P3> ezAdventure,
                                         @NotNull Supplier<@NotNull Collection<@NotNull A>> audience,
@@ -24,6 +23,7 @@ public abstract class AbstractEzAdventurePhase3<A, P3 extends EzAdventurePhase3<
         this.componentSupplier = componentSupplier;
         this.replacements = new ArrayList<>();
         this.audiences = audience;
+        this.ezAdventure = ezAdventure;
     }
 
     private static @NotNull String asReplacedString(@NotNull Object replacement) {
@@ -42,7 +42,6 @@ public abstract class AbstractEzAdventurePhase3<A, P3 extends EzAdventurePhase3<
     @SuppressWarnings("unchecked")
     public final @NotNull P3 replace(@NotNull CharSequence literal, @NotNull Object replacement) {
         replace(builder -> builder.replacement(asLiteralString(literal)).replacement(asReplacedString(replacement)));
-
         return (P3) this;
     }
 
@@ -51,9 +50,7 @@ public abstract class AbstractEzAdventurePhase3<A, P3 extends EzAdventurePhase3<
     public final @NotNull P3 replace(@NotNull CharSequence literal, @NotNull Function<A, Object> replacement) {
         replace((audience, builder) -> builder
                 .matchLiteral(asLiteralString(literal))
-                .replacement(miniMessage.deserialize(
-                        asReplacedString(replacement.apply(audience))
-                )));
+                .replacement(asReplacedString(replacement.apply(audience))));
 
         return (P3) this;
     }
@@ -69,11 +66,10 @@ public abstract class AbstractEzAdventurePhase3<A, P3 extends EzAdventurePhase3<
     @Override
     @SuppressWarnings("unchecked")
     public final @NotNull P3 replace(@NotNull @RegExp String pattern, @NotNull BiFunction<MatchResult, A, Object> replacement) {
-        replace((audience, builder) -> {
-            builder.match(pattern).replacement((matchResult, build) -> miniMessage.deserialize(
-                    asReplacedString(replacement.apply(matchResult, audience))
-            ));
-        });
+        replace((audience, builder) -> builder.match(pattern).replacement((matchResult, build) ->
+                ezAdventure.miniMessage().deserialize(
+                        asReplacedString(replacement.apply(matchResult, audience))
+                )));
         return (P3) this;
     }
 
@@ -110,6 +106,8 @@ public abstract class AbstractEzAdventurePhase3<A, P3 extends EzAdventurePhase3<
     public final void send() {
         // TODO: consider async
 
+        Map<A, Component> components = new HashMap<>();
+
         for (A audience : audiences.get()) {
             Component component = componentSupplier.apply(audience).asComponent();
 
@@ -117,9 +115,18 @@ public abstract class AbstractEzAdventurePhase3<A, P3 extends EzAdventurePhase3<
                 TextReplacementConfig replacementConfig = replacement.apply(audience);
                 component = component.replaceText(replacementConfig);
             }
+            components.put(audience, component);
 
             send(audience, component);
         }
+
+        // TODO:
+        //  onMainThread(() -> {
+        //      for (Map.Entry<A, Component> entry : components.entrySet()) {
+        //         send(audience, component)
+        //      }
+        //  });
+
     }
 
     protected abstract void send(@NotNull A audience, @NotNull ComponentLike component);

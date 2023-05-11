@@ -86,7 +86,8 @@ public abstract class AbstractEzAdventure<A,
 
     @Override
     public final @NotNull LangLoadStrategy getLangLoadStrategy() {
-        return coalesce(options.getLangLoadStrategy(), () -> DEFAULT_LANG_LOAD_STRATEGY);
+        // TODO: Grosso come una casa
+        return coalesce(options.getLangLoadStrategy(), () -> LangLoadStrategy.SIMPLE);
     }
 
     @Override
