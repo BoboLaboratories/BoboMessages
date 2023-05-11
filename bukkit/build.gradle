@@ -1,3 +1,7 @@
+plugins {
+    alias(libs.plugins.shadow)
+}
+
 repositories {
     maven { url = 'https://repo.papermc.io/repository/maven-public/' }  // Paper
 }
@@ -6,16 +10,26 @@ dependencies {
     compileOnly 'net.kyori:adventure-api:4.13.1'
     compileOnly 'io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT'         // Paper
 
-    implementation project(':instance-api')
     implementation project(':common')
+
+    compileOnly libs.bobolibs.core
 
     implementation 'net.kyori:adventure-platform-bukkit:4.3.0'          // Adventure
     implementation 'net.kyori:adventure-text-minimessage:4.13.1'
 }
 
+//shadowJar {
+//    archiveBaseName.set(project.name)
+//    archiveClassifier.set('')
+//
+//    from "${project.rootDir}/LICENSE.txt"
+//}
+
 shadowJar {
     archiveBaseName.set(project.name)
     archiveClassifier.set('')
 
-    from "${project.rootDir}/LICENSE.txt"
+    dependencies {
+        include(dependency('net.bobolabs.messages:.*'))
+    }
 }
