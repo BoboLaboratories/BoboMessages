@@ -19,21 +19,21 @@ public class VelocityEzAdventurePhase3
         implements EzAdventurePhase3<CommandSource, VelocityEzAdventurePhase3> {
 
     protected VelocityEzAdventurePhase3(@NotNull Supplier<@NotNull Collection<@NotNull CommandSource>> audience) {
-        super(audience);
+        super(audience, replacements);
     }
 
     @Override
-    public @NotNull VelocityEzAdventurePhase3 replace(@NotNull CharSequence target, @NotNull Object replacement) {
+    public @NotNull VelocityEzAdventurePhase3 replace(@NotNull CharSequence literal, @NotNull Object replacement) {
         return null;
     }
 
     @Override
-    public @NotNull VelocityEzAdventurePhase3 replace(@NotNull CharSequence target, @NotNull Function<CommandSource, Object> replacement) {
+    public @NotNull VelocityEzAdventurePhase3 replace(@NotNull CharSequence literal, @NotNull Function<CommandSource, Object> replacement) {
         return null;
     }
 
     @Override
-    public @NotNull VelocityEzAdventurePhase3 replaceAll(@NotNull String regex, @NotNull Object replacement) {
+    public @NotNull VelocityEzAdventurePhase3 replaceAll(@NotNull String pattern, @NotNull Object replacement) {
         return null;
     }
 

@@ -14,11 +14,10 @@ import java.util.Locale;
 
 import static net.bobolabs.core.Utils.coalesce;
 
-public abstract class AbstractEzAdventurePhase0
-        <A,
-                P1 extends EzAdventurePhase1<A, P2, P3>,
-                P2 extends EzAdventurePhase2<A, P3>,
-                P3 extends EzAdventurePhase3<A, P3>> implements EzAdventurePhase0<A, P1, P2, P3> {
+public abstract class AbstractEzAdventurePhase0<A,
+        P1 extends EzAdventurePhase1<A, P2, P3>,
+        P2 extends EzAdventurePhase2<A, P3>,
+        P3 extends EzAdventurePhase3<A, P3>> implements EzAdventurePhase0<A, P1, P2, P3> {
 
     private static final String DEFAULT_LINE_JOINER = "\n";
 

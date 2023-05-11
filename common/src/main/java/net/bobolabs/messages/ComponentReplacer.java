@@ -9,17 +9,17 @@ import java.util.function.UnaryOperator;
 public class ComponentReplacer<A> implements Replacer<A, ComponentLike> {
 
     @Override
-    public @NotNull ComponentLike replace(@NotNull CharSequence target, @NotNull Object replacement) {
+    public @NotNull ComponentLike replace(@NotNull CharSequence literal, @NotNull Object replacement) {
         return null;
     }
 
     @Override
-    public @NotNull ComponentLike replace(@NotNull CharSequence target, @NotNull Function<A, Object> replacement) {
+    public @NotNull ComponentLike replace(@NotNull CharSequence literal, @NotNull Function<A, Object> replacement) {
         return null;
     }
 
     @Override
-    public @NotNull ComponentLike replaceAll(@NotNull String regex, @NotNull Object replacement) {
+    public @NotNull ComponentLike replaceAll(@NotNull String pattern, @NotNull Object replacement) {
         return null;
     }
 

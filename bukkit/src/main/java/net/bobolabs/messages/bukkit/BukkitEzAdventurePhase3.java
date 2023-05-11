@@ -20,17 +20,12 @@ public class BukkitEzAdventurePhase3
     }
 
     @Override
-    public @NotNull BukkitEzAdventurePhase3 replace(@NotNull CharSequence target, @NotNull Object replacement) {
+    public @NotNull BukkitEzAdventurePhase3 replace(@NotNull CharSequence literal, @NotNull Function<CommandSender, Object> replacement) {
         return null;
     }
 
     @Override
-    public @NotNull BukkitEzAdventurePhase3 replace(@NotNull CharSequence target, @NotNull Function<CommandSender, Object> replacement) {
-        return null;
-    }
-
-    @Override
-    public @NotNull BukkitEzAdventurePhase3 replaceAll(@NotNull String regex, @NotNull Object replacement) {
+    public @NotNull BukkitEzAdventurePhase3 replaceAll(@NotNull String pattern, @NotNull Object replacement) {
         return null;
     }
 
