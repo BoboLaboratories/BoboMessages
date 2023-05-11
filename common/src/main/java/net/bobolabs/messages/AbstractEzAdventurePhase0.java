@@ -21,6 +21,8 @@ public abstract class AbstractEzAdventurePhase0<A,
 
     private static final String DEFAULT_LINE_JOINER = "\n";
 
+    private MiniMessage miniMessage;
+
     private final EzAdventureOptions options;
 
     private TranslationRegistry translationRegistry;
@@ -34,7 +36,7 @@ public abstract class AbstractEzAdventurePhase0<A,
         Key key = Key.key(getNamespace(), "main");
         translationRegistry = TranslationRegistry.create(key);
         translationRegistry.defaultLocale(getDefaultLocale());
-
+        miniMessage = coalesce(options.getMiniMessage(), MiniMessage::miniMessage);
         GlobalTranslator.translator().addSource(translationRegistry);
     }
 
@@ -93,11 +95,9 @@ public abstract class AbstractEzAdventurePhase0<A,
         return coalesce(options.getLangLoadStrategy(), () -> DEFAULT_LANG_LOAD_STRATEGY);
     }
 
-    // A Stami piace :D
     @Override
     public final @NotNull MiniMessage getMiniMessage() {
-        // TODO se non e' nelle options lo ricrea ogni volta o sbaglio?
-        return coalesce(options.getMiniMessage(), MiniMessage::miniMessage);
+        return miniMessage;
     }
 
 }

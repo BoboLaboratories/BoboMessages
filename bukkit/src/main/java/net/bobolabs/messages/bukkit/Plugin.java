@@ -1,12 +1,17 @@
 package net.bobolabs.messages.bukkit;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.w3c.dom.Text;
 
 import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class Plugin extends JavaPlugin {
 
@@ -26,6 +31,8 @@ public class Plugin extends JavaPlugin {
         adventure.async()
                 .text("You can redeem your <bold>rewards</bold>, %player%!")
                 .permission("vip.claim.alert")
+                .replace(config -> config.matchLiteral("%name%").replacement("bobo"))
+                .replace((sender, config) -> config.matchLiteral("%name%").replacement(sender.getName()))
                 .replace("%player%", p -> ((Player) p).displayName())
                 .send();
 
