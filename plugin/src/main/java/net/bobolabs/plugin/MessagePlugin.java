@@ -3,13 +3,11 @@ package net.bobolabs.plugin;
 import net.bobolabs.messages.EzAdventureOptions;
 import net.bobolabs.messages.bukkit.BukkitEzAdventure;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.Locale;
-import java.util.function.Function;
 
 public class MessagePlugin extends JavaPlugin {
 

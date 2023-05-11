@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+
+    alias(libs.plugins.shadow)
 }
 
 repositories {
@@ -10,14 +12,27 @@ dependencies {
     compileOnly 'net.kyori:adventure-api:4.13.1'
     compileOnly 'io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT'         // Paper
 
-    implementation files('../bukkit/build/libs/bukkit-0.0.3.jar')
+    // implementation files('../bukkit/build/libs/bukkit-0.0.3.jar')
+    compileOnly project(':common')
+    compileOnly project(':instance-api')
+    //implementation project(path: ':bukkit', configuration: 'shadow')
 
+    implementation project(':bukkit')
 
-//    implementation project(':instance-api')
-//    implementation project(':bukkit')
-//    implementation project(':common')
-//    implementation project(':api')
+    implementation libs.bobolibs.core
 
     implementation 'net.kyori:adventure-platform-bukkit:4.3.0'          // Adventure
     implementation 'net.kyori:adventure-text-minimessage:4.13.1'
 }
+
+shadowJar {
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('')
+
+    dependencies {
+        include(dependency('net.bobolabs.messages:.*'))
+    }
+}
+
+tasks.jar.enabled = false
+tasks.build.dependsOn(shadowJar)

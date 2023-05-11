@@ -4,7 +4,6 @@ import net.bobolabs.messages.AbstractEzAdventure;
 import net.bobolabs.messages.AbstractEzAdventurePhase3;
 import net.bobolabs.messages.EzAdventurePhase3;
 import net.kyori.adventure.text.ComponentLike;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

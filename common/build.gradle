@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api project(':instance-api')
+    api project(':api')
 
     compileOnly libs.bobolibs.core
 
