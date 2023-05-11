@@ -8,8 +8,10 @@ import net.kyori.adventure.translation.TranslationRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Objects;
 
 import static net.bobolabs.core.Utils.coalesce;
 
@@ -32,6 +34,10 @@ public abstract class AbstractEzAdventure<A,
         Key key = Key.key(getNamespace(), "main");
         translationRegistry = TranslationRegistry.create(key);
         translationRegistry.defaultLocale(getDefaultLocale());
+
+        translationRegistry.register("fancy-message", Locale.ITALIAN, new MessageFormat("Ciao!"));
+        translationRegistry.register("fancy-message", Locale.CANADA, new MessageFormat("Hello!"));
+
         miniMessage = coalesce(options.miniMessage(), MiniMessage::miniMessage);
         GlobalTranslator.translator().addSource(translationRegistry);
     }
@@ -101,4 +107,9 @@ public abstract class AbstractEzAdventure<A,
         return getLocalizedComponent(locale, key);
     }
 
+    @Override
+    public final @NotNull ComponentLike getLocalizedComponent(@NotNull Locale locale, @NotNull String key) {
+        String str = Objects.requireNonNull(translationRegistry.translate(key, locale)).toPattern();
+        return miniMessage.deserialize(str);
+    }
 }

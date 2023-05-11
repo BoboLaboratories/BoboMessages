@@ -4,6 +4,7 @@ import net.bobolabs.messages.AbstractEzAdventure;
 import net.bobolabs.messages.EzAdventureOptions;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,13 +30,12 @@ public final class BukkitEzAdventure extends AbstractEzAdventure<CommandSender, 
     }
 
     @Override
-    public @NotNull ComponentLike getLocalizedComponent(@NotNull Locale locale, @NotNull String key) {
-        return null;
-    }
-
-    @Override
     public @NotNull Locale getLocale(@NotNull CommandSender audience) {
-        return null;
+        if (audience instanceof Player player) {
+            return player.locale();
+        } else {
+            return getDefaultLocale();
+        }
     }
 
 }

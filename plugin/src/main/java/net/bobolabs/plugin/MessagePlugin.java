@@ -1,8 +1,10 @@
 package net.bobolabs.plugin;
 
+import net.bobolabs.core.Reloadable;
 import net.bobolabs.messages.EzAdventureOptions;
 import net.bobolabs.messages.bukkit.BukkitEzAdventure;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,14 +24,20 @@ public class MessagePlugin extends JavaPlugin {
                 .locale(Locale.CANADA);
 
         BukkitEzAdventure ezAdventure = new BukkitEzAdventure(this, opt);
+        ezAdventure.onEnable();
 
         Player player = Bukkit.getPlayer("Staminal");
         if (player != null) {
-            ezAdventure.sync().text("Se mi vedi va tutto bene")
-                    .sender(player)
+            ezAdventure.sync()
+                    .lang("fancy-message")
+                    .world("world")
+                    .replace("%replace%", CommandSender::getName)
                     .send();
 
         }
+
+        ezAdventure.onDisable();
+
     }
 
     @Override

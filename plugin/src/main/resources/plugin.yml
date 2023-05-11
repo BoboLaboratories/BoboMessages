@@ -2,4 +2,3 @@ name: MessagePlugin
 version: '1.0.0'
 main: net.bobolabs.plugin.MessagePlugin
 api-version: 1.19
-authors: [ BoboLabs ]
