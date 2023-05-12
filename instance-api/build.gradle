@@ -1,9 +1,4 @@
-plugins {
-    id 'java-library'
-}
-
 dependencies {
     api project(':api')
-
-    compileOnly 'org.jetbrains:annotations:24.0.1'                          // JetBrains annotations
+    compileOnly libs.jetbrains.annotations
 }

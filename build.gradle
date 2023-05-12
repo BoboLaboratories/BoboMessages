@@ -3,16 +3,10 @@ import java.time.LocalDateTime
 plugins {
     id 'org.cadixdev.licenser' version '0.6.1'
     id 'maven-publish'
-    //id 'java-library'
-
-    //alias(libs.plugins.shadow)
 }
 
 subprojects {
-    //apply plugin: 'com.github.johnrengelman.shadow'
-    //apply plugin: 'java-library'
-
-    apply plugin: 'java'
+    apply plugin: 'java-library'
 
     group = 'net.bobolabs.messages'
     version = '0.0.1'
@@ -21,14 +15,6 @@ subprojects {
         mavenCentral()
         maven { url = 'https://repo.bobolabs.net/repository/maven-public/' }    // :D
     }
-
-//    dependencies {
-//        compileOnly 'org.jetbrains:annotations:24.0.1'                          // JetBrains annotations
-//        compileOnly libs.bobolibs.core
-//
-//        testImplementation platform('org.junit:junit-bom:5.9.1')
-//        testImplementation 'org.junit.jupiter:junit-jupiter'
-//    }
 
     def targetJavaVersion = 17
     java {

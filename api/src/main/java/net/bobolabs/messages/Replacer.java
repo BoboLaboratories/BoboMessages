@@ -1,9 +1,9 @@
 package net.bobolabs.messages;
 
 import net.kyori.adventure.text.TextReplacementConfig;
+import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.RegEx;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -16,11 +16,11 @@ public interface Replacer<A, T> {
 
     @NotNull T replace(@NotNull CharSequence literal, @NotNull Function<A, Object> replacement);
 
-    @NotNull T replace(@NotNull @RegEx String pattern, @NotNull Object replacement);
+    @NotNull T replace(@NotNull @RegExp String pattern, @NotNull Object replacement);
 
-    @NotNull T replace(@NotNull @RegEx String pattern, @NotNull BiFunction<MatchResult, A, Object> replacement);
+    @NotNull T replace(@NotNull @RegExp String pattern, @NotNull BiFunction<MatchResult, A, Object> replacement);
 
-    @NotNull T replaceTimes(@NotNull @RegEx String regex, @NotNull Object replacement, int times);
+    @NotNull T replaceTimes(@NotNull @RegExp String regex, @NotNull Object replacement, int times);
 
     @NotNull T replace(@NotNull Consumer<TextReplacementConfig.Builder> replacement);
 

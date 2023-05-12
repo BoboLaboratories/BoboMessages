@@ -9,7 +9,18 @@ dependencyResolutionManagement {
     versionCatalogs {
         libs {
             plugin('shadow', 'com.github.johnrengelman.shadow').version('7.1.2')
+
+            // Misc
             library('bobolibs.core', 'net.bobolabs:core:[0.0.3,)')
+            library('jetbrains.annotations',  'org.jetbrains:annotations:24.0.1')
+
+            // Adventure
+            library('adventure.platform.api', 'net.kyori:adventure-platform-api:4.3.0')
+            library('adventure.text.minimessage', 'net.kyori:adventure-text-minimessage:4.13.1')
+
+            // Platforms
+            library('platform.paper', 'io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT')
+            library('platform.velocity', 'com.velocitypowered:velocity-api:3.1.1')
         }
     }
 }

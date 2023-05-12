@@ -1,13 +1,8 @@
-plugins {
-    id 'java-library'
-}
-
 dependencies {
     api project(':api')
-
     compileOnly libs.bobolibs.core
 
-    compileOnly 'net.kyori:adventure-api:4.3.0'
-    compileOnly 'net.kyori:adventure-platform-api:4.3.0'
-    implementation 'net.kyori:adventure-text-minimessage:4.13.1'
+    // Adventure
+    compileOnly libs.adventure.platform.api
+    implementation libs.adventure.text.minimessage
 }
