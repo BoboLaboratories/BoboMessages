@@ -1,6 +1,18 @@
 rootProject.name = 'messages'
 
-for (module in ['api', 'proxy-api', 'instance-api', 'common', 'bukkit', 'bungee', 'velocity', 'plugin']) {
+var modules = [
+        'api',
+        'proxy-api',
+        'instance-api',
+        'common',
+        'bukkit',
+        'bungee',
+        'velocity',
+        'bukkit-plugin',
+        'velocity-plugin'
+]
+
+for (module in modules) {
     include("${module}")
     project(":${module}").projectDir = file(module)
 }
@@ -12,7 +24,7 @@ dependencyResolutionManagement {
 
             // Misc
             library('bobolibs.core', 'net.bobolabs:core:[0.0.3,)')
-            library('jetbrains.annotations',  'org.jetbrains:annotations:24.0.1')
+            library('jetbrains.annotations', 'org.jetbrains:annotations:24.0.1')
 
             // Adventure
             library('adventure.platform.api', 'net.kyori:adventure-platform-api:4.3.0')
