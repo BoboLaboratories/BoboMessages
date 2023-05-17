@@ -1,6 +1,12 @@
+repositories {
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }  // needed for snakeyaml (?)
+}
+
 dependencies {
     api project(':api')
-    compileOnly libs.bobolibs.core
+    implementation libs.bobolibs.core
+    implementation 'net.bobolabs:config:1.0.2'
+    implementation 'org.yaml:snakeyaml:1.33-SNAPSHOT'
 
     // Adventure
     compileOnly libs.adventure.platform.api

@@ -68,6 +68,9 @@ public class EzAdventureOptions implements EzAdventureConfigurable {
             return new EzAdventureOptionsNamespace(langs);
         }
 
+        // TODO langs(File dir, String fileName)
+        // TODO langs(String fileName)
+
         public @NotNull Builder langLoadStrategy(@NotNull LangLoadStrategy langLoadStrategy) {
             this.langLoadStrategy = langLoadStrategy;
             return this;
