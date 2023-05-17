@@ -19,7 +19,7 @@ public class MessagePlugin extends JavaPlugin {
 
         EzAdventureOptions opt = new EzAdventureOptions.Builder()
                 .langs(new File(getDataFolder(), "lang.yml"))
-                .namespace("boboplugin")
+                .namespace("boboplugin-bukkit")
                 .locale(Locale.CANADA);
 
         BukkitEzAdventure ezAdventure = new BukkitEzAdventure(this, opt);

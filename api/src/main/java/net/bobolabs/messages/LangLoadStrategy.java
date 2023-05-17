@@ -2,24 +2,18 @@ package net.bobolabs.messages;
 
 /*
 
-    - lang.yml
+    - lang.yml          // UnlocalizedFileStrategy
 
-    - lang/
+    - lang/             // UnlocalizedDirectoryStrategy
         file1.yml
         file2.yml
 
-    - lang/
+    - lang/             // LocalizedFileStrategy
         lang_en_US.yml
         lang_it_IT.yml
+        common.yml
 
-    - lang/
-        en_US/
-            file1.yml
-            file2.yml
-        file3.yml
-        file4.yml
-
-    - lang/
+    - lang/             // LocalizedDirectoryStrategy
         en_US/
             file1.yml
             file2.yml
@@ -30,6 +24,7 @@ package net.bobolabs.messages;
         file4.yml
 
 */
+
 
 public enum LangLoadStrategy {
 
