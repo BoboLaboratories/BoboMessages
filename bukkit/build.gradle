@@ -1,4 +1,6 @@
 plugins {
+    id 'maven-publish'
+
     alias(libs.plugins.shadow)
 }
 
@@ -19,11 +21,25 @@ dependencies {
     // implementation 'net.kyori:adventure-platform-bukkit:4.3.0'
 }
 
+var archiveName = "${rootProject.name}-${project.name}"
+
 shadowJar {
-    archiveBaseName.set(project.name)
+    archiveBaseName.set(archiveName)
     archiveClassifier.set('')
 
     dependencies {
         include(dependency('net.bobolabs.messages:.*'))
+    }
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) { publication ->
+            groupId = project.group
+            artifactId = archiveName
+            version = project.version
+
+            project.shadow.component(publication)
+        }
     }
 }
