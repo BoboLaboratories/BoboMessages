@@ -1,7 +1,7 @@
 dependencies {
     api project(':api')
     compileOnly libs.bobolibs.core
-    implementation 'net.bobolabs:config:1.1.0'
+    implementation 'net.bobolabs.config:config:2.0.0'
 
     // Adventure
     compileOnly libs.adventure.platform.api

@@ -1,11 +1,14 @@
 package net.bobolabs.messages;
 
+import net.bobolabs.core.Reloadable;
 import net.kyori.adventure.text.ComponentLike;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
-public interface EzAdventurePhase1<A, P2 extends EzAdventurePhase2<A, P3>, P3 extends EzAdventurePhase3<A, P3>> {
+public interface EzAdventurePhase1<A,
+        P2 extends EzAdventurePhase2<A, P3>,
+        P3 extends EzAdventurePhase3<A, P3>> extends Reloadable {
 
     @NotNull P2 lang(@NotNull String key);
 

@@ -31,7 +31,7 @@ shadowJar {
 
     dependencies {
         include(dependency('net.bobolabs.messages:.*'))
-        include(dependency('net.bobolabs:.*'))
+        include(dependency('net.bobolabs.config:.*'))
     }
 }
 

@@ -30,11 +30,7 @@ public final class BukkitEzAdventure extends AbstractEzAdventure<CommandSender, 
 
     @Override
     public @NotNull Locale getLocale(@NotNull CommandSender audience) {
-        if (audience instanceof Player player) {
-            return player.locale();
-        } else {
-            return getDefaultLocale();
-        }
+        return audience instanceof Player player ? player.locale() : getDefaultLocale();
     }
 
 }

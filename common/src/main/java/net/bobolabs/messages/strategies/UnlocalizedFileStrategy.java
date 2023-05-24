@@ -1,7 +1,8 @@
 package net.bobolabs.messages.strategies;
 
 import net.bobolabs.config.Configuration;
-import net.bobolabs.config.ConfigurationBuilder;
+import net.bobolabs.config.ConfigurationLoader;
+import net.bobolabs.config.TraversalMode;
 import net.bobolabs.messages.AbstractEzLangLoader;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.translation.TranslationRegistry;
@@ -22,8 +23,8 @@ public class UnlocalizedFileStrategy extends AbstractEzLangLoader {
     @Override
     protected void load(@NotNull MiniMessage miniMessage, @NotNull File langs, @NotNull TranslationRegistry registry) {
         if (langs.isFile() && langs.exists()) {
-            Configuration config = ConfigurationBuilder.fromFile(langs).build();
-            for (String key : config.getKeys(true)) {
+            Configuration config = ConfigurationLoader.fromFile(langs).load();
+            for (String key : config.getKeys(TraversalMode.ALL)) {
                 String message = config.getString(key);
                 registry.register(key, locale, new MessageFormat(message));
             }

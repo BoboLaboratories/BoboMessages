@@ -1,0 +1,3 @@
+name: MessagePlugin
+version: '${version}'
+main: net.bobolabs.plugin.MessagePlugin

@@ -9,7 +9,8 @@ var modules = [
         'bungee',
         'velocity',
         'bukkit-plugin',
-        'velocity-plugin'
+        'velocity-plugin',
+        'bungee-plugin'
 ]
 
 for (module in modules) {
@@ -33,6 +34,7 @@ dependencyResolutionManagement {
             // Platforms
             library('platform.paper', 'io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT')
             library('platform.velocity', 'com.velocitypowered:velocity-api:3.1.1')
+            library('platform.bungee', 'net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT')
         }
     }
 }

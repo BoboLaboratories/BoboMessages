@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public final class VelocityEzAdventurePhase2
         extends AbstractEzAdventurePhase2<CommandSource, VelocityEzAdventurePhase3>
