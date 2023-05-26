@@ -32,7 +32,8 @@ public class LocalizedFileStrategy extends AbstractEzLangLoader {
                 String[] splitted = file.getName().split("\\.");
                 Locale locale = Locale.forLanguageTag(splitted[splitted.length - 2]);
                 if (isLocaleValid(locale)) {
-                    // TODO:
+                    UnlocalizedFileStrategy fileStrategy = new UnlocalizedFileStrategy(locale, miniMessage, file);
+                    fileStrategy.load(registry);
                 }
             }
 

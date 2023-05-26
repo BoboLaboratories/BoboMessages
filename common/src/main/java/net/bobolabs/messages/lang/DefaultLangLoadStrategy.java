@@ -2,6 +2,8 @@ package net.bobolabs.messages.lang;
 
 import net.bobolabs.config.Configuration;
 import net.bobolabs.config.ConfigurationBuilder;
+import net.bobolabs.config.ConfigurationLoader;
+import net.bobolabs.config.TraversalMode;
 import net.bobolabs.core.Check;
 import net.bobolabs.messages.EzLangLoadStrategy;
 import org.jetbrains.annotations.NotNull;
@@ -72,8 +74,8 @@ public final class DefaultLangLoadStrategy implements EzLangLoadStrategy {
     }
 
     private void visitFile(@NotNull File langs) {
-        Configuration yaml = ConfigurationBuilder.fromFile(langs).build();
-        for (String key : yaml.getKeys()) {
+        Configuration yaml = ConfigurationLoader.fromFile(langs).load();
+        for (String key : yaml.getKeys(TraversalMode.ROOT)) {
             System.out.println(key);
         }
     }
