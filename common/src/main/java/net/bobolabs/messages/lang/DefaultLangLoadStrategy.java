@@ -1,7 +1,6 @@
 package net.bobolabs.messages.lang;
 
 import net.bobolabs.config.Configuration;
-import net.bobolabs.config.ConfigurationBuilder;
 import net.bobolabs.config.ConfigurationLoader;
 import net.bobolabs.config.TraversalMode;
 import net.bobolabs.core.Check;
@@ -32,8 +31,6 @@ import java.util.Locale;
         it_IT/
             file1.yml
             file2.yml
-        file3.yml
-        file4.yml
 */
 
 public final class DefaultLangLoadStrategy implements EzLangLoadStrategy {

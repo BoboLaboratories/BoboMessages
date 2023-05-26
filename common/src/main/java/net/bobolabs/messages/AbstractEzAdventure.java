@@ -35,9 +35,6 @@ public abstract class AbstractEzAdventure<A,
         translationRegistry = TranslationRegistry.create(key);
         translationRegistry.defaultLocale(getDefaultLocale());
 
-        translationRegistry.register("fancy-message", Locale.ITALIAN, new MessageFormat("Ciao!"));
-        translationRegistry.register("fancy-message", Locale.CANADA, new MessageFormat("Hello!"));
-
         miniMessage = coalesce(options.miniMessage(), MiniMessage::miniMessage);
         GlobalTranslator.translator().addSource(translationRegistry);
     }

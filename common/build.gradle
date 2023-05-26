@@ -6,4 +6,7 @@ dependencies {
     // Adventure
     compileOnly libs.adventure.platform.api
     implementation libs.adventure.text.minimessage
+
+    // REMOVE AS SOON AS YOU SEE ME TY
+    implementation 'org.yaml:snakeyaml:[1.33-SNAPSHOT, 2.0]'                      // snakeyaml
 }

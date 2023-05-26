@@ -24,13 +24,14 @@ public class LocalizedFileStrategy extends AbstractEzLangLoader {
         try (Stream<Path> stream = Files.list(langs.toPath())) {
             List<File> files = stream
                     .filter(p -> !Files.isDirectory(p))
-                    .filter(path -> path.endsWith(".yml"))
+                    .filter(path -> path.toString().endsWith(".yml"))
                     .map(Path::toFile)
                     .toList();
 
+            // we assume files has a file name that matches <anything>.<locale>.yml
             for (File file : files) {
                 String[] splitted = file.getName().split("\\.");
-                Locale locale = Locale.forLanguageTag(splitted[splitted.length - 2]);
+                Locale locale = Locale.forLanguageTag(splitted[splitted.length - 2].replace('_', '-'));
                 if (isLocaleValid(locale)) {
                     UnlocalizedFileStrategy fileStrategy = new UnlocalizedFileStrategy(locale, miniMessage, file);
                     fileStrategy.load(registry);

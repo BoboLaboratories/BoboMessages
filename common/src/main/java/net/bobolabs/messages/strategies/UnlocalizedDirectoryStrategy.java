@@ -1,6 +1,7 @@
 package net.bobolabs.messages.strategies;
 
 import net.bobolabs.messages.AbstractEzLangLoader;
+import net.bobolabs.messages.EzLangLoader;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.translation.TranslationRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -22,8 +23,8 @@ public class UnlocalizedDirectoryStrategy extends AbstractEzLangLoader {
         if (langs.isDirectory() && langs.exists()) {
             for (File file : langs.listFiles()) {
                 if (file.isFile()) {
-                    UnlocalizedFileStrategy fileStrategy = new UnlocalizedFileStrategy(locale, miniMessage, langs);
-                    fileStrategy.load(miniMessage, langs, registry);
+                    EzLangLoader loader = new UnlocalizedFileStrategy(locale, miniMessage, file);
+                    loader.load(registry);
                 }
             }
         }
