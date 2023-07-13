@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.Locale;
+
 public class UnlocalizedFileStrategy extends AbstractEzLangLoader {
 
     private final Locale locale;

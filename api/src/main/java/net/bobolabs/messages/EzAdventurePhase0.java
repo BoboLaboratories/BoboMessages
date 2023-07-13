@@ -20,8 +20,6 @@ public interface EzAdventurePhase0<A,
 
     @NotNull MiniMessage miniMessage();
 
-    // --------------------------------
-
     @NotNull ComponentLike getLocalizedComponent(@NotNull A audience, @NotNull String key);
 
     @NotNull ComponentLike getLocalizedComponent(@NotNull Locale locale, @NotNull String key);

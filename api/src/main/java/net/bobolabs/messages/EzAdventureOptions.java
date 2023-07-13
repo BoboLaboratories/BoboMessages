@@ -7,106 +7,80 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.Locale;
 
-public class EzAdventureOptions implements EzAdventureConfigurable {
+public final class EzAdventureOptions implements EzAdventureConfigurable {
 
-    private final String namespace;
-    private final Locale locale;
-    private final File langs;
+    private Locale defaultLocale;
+    private String namespace;
+    private File langSource;
 
-    private LangLoadStrategy langLoadStrategy = LangLoadStrategy.SIMPLE;
     private @Nullable MiniMessage miniMessage;
 
-    private EzAdventureOptions(@NotNull String namespace, @NotNull File langs, @NotNull Locale locale) {
-        this.namespace = namespace;
-        this.locale = locale;
-        this.langs = langs;
+    private EzAdventureOptions() {}
+
+    public static @NotNull EzAdventureOptions.Builder builder() {
+        return new EzAdventureOptions.Builder(new EzAdventureOptions());
     }
 
-    public @NotNull EzAdventureOptions langLoadStrategy(@NotNull LangLoadStrategy langLoadStrategy) {
-        this.langLoadStrategy = langLoadStrategy;
-        return this;
-    }
-
-    public @NotNull EzAdventureOptions miniMessage(@NotNull MiniMessage miniMessage) {
-        this.miniMessage = miniMessage;
-        return this;
-    }
-
+    @Override
     public @NotNull String getNamespace() {
-        return namespace;
+        return null;
     }
 
+    @Override
     public @NotNull Locale getDefaultLocale() {
-        return locale;
+        return null;
     }
 
+    @Override
     public @NotNull File getLangs() {
-        return langs;
+        return null;
     }
 
-    public @Nullable LangLoadStrategy getLangLoadStrategy() {
-        return langLoadStrategy;
-    }
-
-    public @Nullable MiniMessage miniMessage() {
-        return miniMessage;
+    @Override
+    public MiniMessage miniMessage() {
+        return null;
     }
 
     public static class Builder {
 
-        private String namespace;
-        private Locale locale;
-        private File langs;
+        private final EzAdventureOptions options;
 
-        private LangLoadStrategy langLoadStrategy = LangLoadStrategy.SIMPLE;
-        private @Nullable MiniMessage miniMessage;
-
-        public Builder() {
+        private Builder(@NotNull EzAdventureOptions options) {
+            this.options = options;
         }
 
-        public @NotNull EzAdventureOptionsNamespace langs(@NotNull File langs) {
-            return new EzAdventureOptionsNamespace(langs);
+        public @NotNull Builder namespace(@NotNull String namespace) {
+            options.namespace = namespace;
+            return this;
         }
 
-        // TODO langs(File dir, String fileName)
-        // TODO langs(String fileName)
+        public @NotNull Builder langSource(@NotNull File langSource) {
+            options.langSource = langSource;
+            return this;
+        }
 
-        public @NotNull Builder langLoadStrategy(@NotNull LangLoadStrategy langLoadStrategy) {
-            this.langLoadStrategy = langLoadStrategy;
+        public @NotNull Builder defaultLocale(@NotNull Locale defaultLocale) {
+            options.defaultLocale = defaultLocale;
             return this;
         }
 
         public @NotNull Builder miniMessage(@NotNull MiniMessage miniMessage) {
-            this.miniMessage = miniMessage;
+            options.miniMessage = miniMessage;
             return this;
         }
-    }
 
+        public @NotNull EzAdventureOptions build() {
+            checkArgument(options.namespace != null && !options.namespace.isBlank(), "invalid namespace");
+            checkArgument(options.langSource != null, "lang source is required");
+            checkArgument(options.defaultLocale);
 
-    public static class EzAdventureOptionsNamespace extends Builder {
-        private final File langs;
-
-        private EzAdventureOptionsNamespace(@NotNull File langs) {
-            this.langs = langs;
+            return options;
         }
 
-        public @NotNull EzAdventureOptionsLangs namespace(@NotNull String namespace) {
-            return new EzAdventureOptionsLangs(namespace, langs);
-        }
-    }
-
-
-    public static class EzAdventureOptionsLangs extends Builder {
-        private final String namespace;
-        private final File langs;
-
-        private EzAdventureOptionsLangs(@NotNull String namespace, @NotNull File langs) {
-            this.namespace = namespace;
-            this.langs = langs;
-        }
-
-        public @NotNull EzAdventureOptions locale(@NotNull Locale locale) {
-            return new EzAdventureOptions(namespace, langs, locale);
+        private void checkArgument(boolean condition, @NotNull String message) {
+            if (!condition) {
+                throw new IllegalArgumentException(message);
+            }
         }
     }
 
