@@ -31,6 +31,16 @@ public abstract class AbstractEzAdventure<A,
 
     @Override
     public void onEnable() {
+        Key key = Key.key("bobopackets", "main");
+        translationRegistry = TranslationRegistry.create(key);
+        LangLoader langLoader = new LangLoader(new File(getDataFolder(), "my_langs"));
+        langLoader.addReplacement("%prefix%", ":D");
+        langLoader.load(translationRegistry);
+        GlobalTranslator.translator().addSource(translationRegistry);
+
+
+
+
         Key key = Key.key(getNamespace(), "main");
         translationRegistry = TranslationRegistry.create(key);
         translationRegistry.defaultLocale(getDefaultLocale());

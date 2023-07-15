@@ -1,7 +1,6 @@
 package net.bobolabs.messages.bukkit;
 
 import net.bobolabs.messages.EzAdventureOptions;
-import net.bobolabs.messages.LangLoadStrategy;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.World;

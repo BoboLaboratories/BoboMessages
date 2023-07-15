@@ -26,6 +26,7 @@ dependencyResolutionManagement {
 
             // Misc
             library('bobolibs.core', 'net.bobolabs:core:[0.0.3,)')
+            library('apache.text', 'org.apache.commons:commons-text:1.10.0')
             library('jetbrains.annotations', 'org.jetbrains:annotations:24.0.1')
 
             // Adventure
